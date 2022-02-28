@@ -18,29 +18,37 @@ function computerPlay() {
 // write a boolean function that plays single round of Rock Paper Scissors
 // to check if win, lose, or tie
 function playRound (playerSelection, computerSelection) {
-    let str = "";
+    let msg = "";
     let playerPick = playerSelection.toUpperCase();
     let computerPick = computerSelection.toUpperCase();
+    // status 0 = tie, win = 1, lose = 2
+    let roundStatus = 0;
     let strWin = `You win! ${playerPick} beats ${computerPick}!`;
     let strLose = `You lose! ${computerPick} beats ${playerPick}!`;
 
-
     if (playerPick == computerPick) {
-        str =  `It's a draw! ${playerPick} ties ${computerPick}!`;
+        msg =  `It's a draw! ${playerPick} ties ${computerPick}!`;
     } else if (playerPick == "ROCK" && computerPick == "SCISSORS") {
-        str = strWin;
+        msg = strWin;
+        roundStatus = 1;
     } else if (playerPick == "ROCK" && computerPick == "PAPER") {
-        str = strLose;
+        msg = strLose;
+        roundStatus = 2;
     } else if (playerPick == "SCISSORS" && computerPick == "ROCK") {
-        str = strLose;
+        msg = strLose;
+        roundStatus = 2;
     } else if (playerPick == "SCISSORS" && computerPick == "PAPER") {
-        str = strWin;
+        msg = strWin;
+        roundStatus = 1;
     } else if (playerPick == "PAPER" && computerPick == "ROCK") {
-        str = strWin;
+        msg = strWin;
+        roundStatus = 1;
     } else if (playerPick == "PAPER" && computerPick == "SCISSORS") {
-        str = strLose;
+        msg = strLose;
+        roundStatus = 2;
     }
-    return str;
+    console.log(msg);
+    return roundStatus;
 }
 /* ~Test playRound function~
 const playerSelection = "paper";
@@ -52,18 +60,25 @@ console.log(playRound(playerSelection, computerSelection));
 // Call playRound function inside of function game() to play a 5 round game
 // that keeps score and reports winner or loser at the end.
 function game() {
-    let maxRounds = 5;
+    const MAX_ROUNDS = 5;
     let playerScore = 0;
     let computerScore = 0;
+    let tieScore = 0;
 
-    let answer = window.prompt(`Please enter rock, paper, or scissors.`);
-    console.log(playRound(answer, computerPlay()) );
-    console.log(answer);
+    for (let i=0; i < MAX_ROUNDS; i++) {
+        let answer = window.prompt(`Please enter rock, paper, or scissors.`);
+        console.log(`Round Count: ${i+1}`);
+        console.log(`You entered: ${answer}`);
+        let roundStatus = (playRound(answer, computerPlay()) );
 
-/*
-    for (let i=0; i < maxRounds; i++) {
-        
-
+        if (roundStatus == 2) {
+            computerScore++;
+        } else if (roundStatus == 1) {
+            playerScore++;
+        } else {
+            tieScore++;
+        }
+        console.log(`Player Score: ${playerScore}\nComputer Score: ${computerScore}`);
+        console.log("-----------------------------------------------------");
     }
-*/    
 }
